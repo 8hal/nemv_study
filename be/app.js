@@ -37,3 +37,20 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+
+const mongoose = require('mongoose')
+
+const userSchema = new mongoose.Schema({
+   name: { type: String, default: '', unique: true, index: true },
+   age: { type: Number, default: 1 }
+ })
+
+const User = mongoose.model('User', userSchema)
+
+mongoose.connect('mongodb://localhost:27017/nemv', { useNewUrlParser: true }, (err) => {
+   if (err) return console.error(err)
+   console.log('mongoose connected!')
+   User.create({ name: '하하' })
+    .then(r => console.log(r))
+    .catch(e => console.error(e))
+})
